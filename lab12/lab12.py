@@ -1,12 +1,13 @@
-# Author: Yanling Wang yuw17@psu.edu
-# Collaborator:
-# Collaborator:
-# Collaborator:
+# Author: Wenrui Zhang wkz5094@psu.edu
+# Collaborator: Ruilan Sun rfs5748@psu.edu
+# Collaborator: Prajnay Kataria pmk5429@psu.edu
+# Collaborator: Shiao Zhuang sqz5328@psu.edu
 # Section: 1
-# Breakout: 1
+# Breakout: 5
 
+import csv
 from sys import argv
-
+import pickle
 def run():
   """
   This program should be run with the following command line arguments:
@@ -24,6 +25,13 @@ def run():
   if len(argv) < 3:
     print(f"Usage: python3 {argv[0]} input.pickle output.csv")
     return
-
+  f=open(argv[1],'rb')
+  ori=pickle.loaf(f)
+  with open(argv[2], 'w') as f:
+    temp_dict = ori[0]
+    w = csv.Dictwriter(f, temp_dict.keys())
+    w.writeheader()
+    for dict in ori:
+      w.writerow(dict)
 if __name__ == "__main__":
   run()
