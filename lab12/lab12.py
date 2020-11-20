@@ -25,11 +25,11 @@ def run():
   if len(argv) < 3:
     print(f"Usage: python3 {argv[0]} input.pickle output.csv")
     return
-  f=open(argv[1],'rb')
+  f=open(argv[1], 'rb')
   ori=pickle.loaf(f)
   with open(argv[2], 'w') as f:
     temp_dict = ori[0]
-    w = csv.Dictwriter(f, temp_dict.keys())
+    w = csv.DictWriter(f, temp_dict.keys())
     w.writeheader()
     for dict in ori:
       w.writerow(dict)
