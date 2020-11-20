@@ -24,7 +24,7 @@ def run():
   if len(argv) < 3:
     print(f"Usage: python3 {argv[0]} input.pickle output.csv")
     return
-  f=open(argv[1], 'rb')
+  f=open(argv[1],'rb')
   ori=pickle.load(f)
   with open(argv[2], 'w') as f:
     temp_dict = ori[0]
