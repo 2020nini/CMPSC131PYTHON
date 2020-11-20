@@ -4,7 +4,6 @@
 # Collaborator: Shiao Zhuang sqz5328@psu.edu
 # Section: 1
 # Breakout: 5
-
 import csv
 from sys import argv
 import pickle
@@ -26,7 +25,7 @@ def run():
     print(f"Usage: python3 {argv[0]} input.pickle output.csv")
     return
   f=open(argv[1], 'rb')
-  ori=pickle.loaf(f)
+  ori=pickle.load(f)
   with open(argv[2], 'w') as f:
     temp_dict = ori[0]
     w = csv.DictWriter(f, temp_dict.keys())
