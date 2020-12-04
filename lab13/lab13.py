@@ -4,6 +4,7 @@
 # Collaborator: Shiao Zhuang sqz5328@psu.edu
 # Section: 1
 # Breakout: 5
+
 from matplotlib import pyplot as plt
 from sys import argv
 import csv
