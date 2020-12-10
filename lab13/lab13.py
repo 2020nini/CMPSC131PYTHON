@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Author: Wenrui Zhang wkz5094@psu.edu
 # Collaborator: Ruilan Sun rfs5748@psu.edu
 # Collaborator: Prajnay Kataria pmk5429@psu.edu
@@ -64,11 +65,33 @@ def get_county_2(days):
     county_data.append(temp)
   #print(county_data)
   return county_data
+=======
+# Author: Yanling Wang yuw17@psu.edu
+# Collaborator:
+# Collaborator:
+# Collaborator:
+# Section: 1
+# Breakout: 1
+
+from matplotlib import pyplot as plt
+
+# Retrieve a list of counties from argv[2]
+counties = ['Centre']
+
+# Retrieve the number of days from argv[3]
+days = 10 
+
+plt.xticks(rotation=70, fontsize=6)
+plt.ylabel('7-day Average New Cases per 100,000 population')
+
+# Write code to read csv file (argv[1]) into a list of dictionaries
+>>>>>>> f9051954353bdf7dafc8727fe3d5a4692c9a9096
 
 for county in counties: 
   # Retrieve from the csv file's data x/y data for a specific county 
   # The length of the data should match the number of days from argv[3]
   # It should be data for the most recent days. 
+<<<<<<< HEAD
   county_ys=get_county(county)
   
   if days > 30:
@@ -77,9 +100,23 @@ for county in counties:
   else:
     plt.plot(county_ys, label = county)
     plt.xticks(range(days), dates[-days:])
+=======
+  county_ys = list(range(days)) 
+  county_dates = list(range(days)) 
+  plt.plot(county_ys, label = county)
+  if days > 30:
+    plt.xticks(range(0,days,7), county_dates[::7])
+  else:
+    plt.xticks(range(days), county_dates)
+>>>>>>> f9051954353bdf7dafc8727fe3d5a4692c9a9096
 
 
 plt.legend()
 # Save figure to the file argv[4]
+<<<<<<< HEAD
 plt.savefig(argv[4])
 plt.show()
+=======
+plt.savefig('sample.png')
+plt.show()
+>>>>>>> f9051954353bdf7dafc8727fe3d5a4692c9a9096
