@@ -1,16 +1,7 @@
 # Author: Wenrui Zhang wkz5094@psu.edu
 # GitHub ID: 2020nini
 
-"""
-Your program should read in a pickle file that encodes a sudoku puzzle,
-print out a puzzle, and analyze possible answers for a given coordinate
-(x,y).
-$python3 sudoku.py sudokus/s01a.p1 3 5 answer.csv
-$python3 sudoku.py sudokus/s01a.p1 0 1 answer.csv
-"""
-import numpy as np
-
- 
+import numpy as np 
 def nine(data):
     nine_block = np.zeros([3,3,3,3], dtype = int)
     for i in range(3):
@@ -57,19 +48,43 @@ def try_insert(data):
     print(data)    
 
 if __name__ == '__main__':
-
-    
-    data = '0 4 0 0 0 0 1 7 9\
-            0 0 2 0 0 8 0 5 4\
-            0 0 6 0 0 5 0 0 8\
-            0 8 0 0 7 0 9 1 0\
-            0 5 0 0 9 0 0 3 0\
-            0 1 9 0 6 0 0 4 0\
-            3 0 0 4 0 0 7 0 0\
-            5 7 0 1 0 0 2 0 0\
-            9 2 8 0 0 0 0 6 0'
-    
-    
+    ###第一个矩阵
+    data = '2 0 6 0 0 0 0 4 9\
+            0 3 7 0 0 9 0 0 0\
+            1 0 0 7 0 0 0 0 6\
+            0 0 0 5 8 0 9 0 0\
+            7 0 5 0 0 0 8 0 4\
+            0 0 9 0 6 2 0 0 0\
+            9 0 0 0 0 4 0 0 1\
+            0 0 0 3 0 0 4 9 0\
+            4 1 0 0 0 0 2 0 8'
+    ###第二个矩阵
+#     data = '0 4 0 0 0 0 1 7 9\
+#             0 0 2 0 0 8 0 5 4\
+#             0 0 6 0 0 5 0 0 8\
+#             0 8 0 0 7 0 9 1 0\
+#             0 5 0 0 9 0 0 3 0\
+#             0 1 9 0 6 0 0 4 0\
+#             3 0 0 4 0 0 7 0 0\
+#             5 7 0 1 0 0 2 0 0\
+#             9 2 8 0 0 0 0 6 0'        
     data = np.array(data.split(), dtype = int).reshape((9, 9))
-    print(data)
-    try_insert(data)
+#     print(data)
+#     try_insert(data)
+
+nine_block = np.zeros([3,3,3,3], dtype = int)
+
+for i in range(3):
+        for j in range(3):
+            nine_block[i,j] = data[3*i:3*(i+1),3*j:3*(j+1)]
+
+pick_set = {}
+for i in range(9):
+    for j in range(9):
+        
+        if data[i,j] == 0:
+            pick_set[str(i)+str(j)] = set(np.array(range(10))) - \
+            (set(data[i,:]) | set(data[:,j]) | \
+            set(nine_block[i//3,j//3].ravel()))
+
+print(pick_set)
