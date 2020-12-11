@@ -96,4 +96,4 @@ def wicked_game():
 
 
 if __name__ == '__main__':
-    wicked_game()
+    normal_game()
