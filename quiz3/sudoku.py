@@ -10,6 +10,8 @@ $python3 sudoku.py sudokus/s01a.p1 0 1 answer.csv
 """
 import sys
 import pickle
+import csv
+
 
 def get_data(i,j,lines):
     total_num = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -68,14 +70,17 @@ if __name__ == "__main__":
     print("square: %s" % (square))
 
     if lines_[row_num][col_num] !=0:
-        print("(%s, %s)[%s]" % (row_num, col_num, lines_[row_num][col_num]))
+        print("(%s,%s)[%s]" % (row_num, col_num, lines_[row_num][col_num]))
     else:
-        print("(%s, %s) %s" % (row_num, col_num, get_data(row_num, col_num, lines_)))
+        print("(%s,%s) %s" % (row_num, col_num, get_data(row_num, col_num, lines_)))
     save_file = sys.argv[4]
 
     with open(save_file, 'w+') as f:
+        spamwriter = csv.writer(f, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spamwriter.writerow(['row', 'column', 'numbers'])
         for i in range(9):
             for j in range(9):
                 if lines_[i][j] == 0:
                     res = get_data(i, j, lines_)
-                    f.write('%s,%s,"%s"\n' % (i, j, res))
+                    spamwriter.writerow([i, j, res])
