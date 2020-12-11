@@ -1,6 +1,7 @@
 # Author: Wenrui Zhang wkz5094@psu.edu
 # GitHub ID: 2020nini
 
+#python3 sudoku.py sudokus/s01a.p1 3 5 answer_s01a.csv
 import sys
 
 def get_data(i,j,lines):
@@ -76,3 +77,11 @@ if __name__ == "__main__":
                 if lines_[i][j] == 0:
                     res = get_data(i, j, lines_)
                     f.write('%s,%s,"%s"\n' % (i, j, res))
+
+
+
+
+
+
+
+
