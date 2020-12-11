@@ -70,9 +70,9 @@ if __name__ == "__main__":
     print("square: %s" % (square))
 
     if lines_[row_num][col_num] !=0:
-        print("(%s,%s)[%s]" % (row_num, col_num, lines_[row_num][col_num]))
+        print("(%s, %s)[%s]" % (row_num, col_num, lines_[row_num][col_num]))
     else:
-        print("(%s,%s) %s" % (row_num, col_num, get_data(row_num, col_num, lines_)))
+        print("(%s, %s) %s" % (row_num, col_num, get_data(row_num, col_num, lines_)))
     save_file = sys.argv[4]
 
     with open(save_file, 'w+') as f:
