@@ -8,6 +8,7 @@ print out a puzzle, and analyze possible answers for a given coordinate
 $python3 sudoku.py sudokus/s01a.p1 3 5 answer.csv
 $python3 sudoku.py sudokus/s01a.p1 0 1 answer.csv
 """
+
 import sys
 import pickle
 import csv
