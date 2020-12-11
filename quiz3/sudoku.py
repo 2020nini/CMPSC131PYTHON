@@ -76,8 +76,8 @@ if __name__ == "__main__":
     save_file = sys.argv[4]
 
     with open(save_file, 'w+') as f:
-        spamwriter = csv.writer(f, delimiter=' ',
-                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spamwriter = csv.writer(f, delimiter=',',
+                                quotechar='"', quoting=csv.QUOTE_MINIMAL)
         spamwriter.writerow(['row', 'column', 'numbers'])
         for i in range(9):
             for j in range(9):
