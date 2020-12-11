@@ -1,99 +1,102 @@
 #Author: Wenrui Zhang wkz5094@psu.edu
 from sys import argv
-import random
 
 
-def debug_print(s):
-    if len(argv) > 4:
-        print(s)
 
-
-def normal_game():
-    # python3 hangman.py w1.txt 8 7
-    words = {}
-    file = argv[1]
-    len_word = int(argv[2])
-    chances_num = int(argv[3])
-    chances_tmp = chances_num
-    with open(file, 'r') as f:
-        word_list = f.readlines()
-        for word in word_list:
-            word = word.strip('\n')
-            if len(word) not in words:
-                words[len(word)] = [word]
-            else:
-                words[len(word)].append(word)
-    if len_word not in words:
-        print("No words of this length")
-        return
+def mix_pat(p1, p2):
+  if p1 == p2:
+    return p1
+  res = ''
+  for i in range(len(p1)):
+    if p1[i] == '_' and p2[i] == '_':
+      res += '_'
+    elif p1[i] != '_' and p2[i] != '_':
+      raise Exception(p1 + p2)
     else:
-        program_word = random.choice(words[len_word])
-        user_words = ['_' for _ in range(len_word)]
-        miss_str = ""
-        while '_' in user_words:
-            if chances_num == 0:
-                break
-            print("".join(user_words))
-            print('missed letters: %s(%s chances left)' % (miss_str, chances_num))
-            user_guess_char = input("Enter your guess: ")
-            if user_guess_char not in program_word:
-                chances_num -= 1
-                miss_str = miss_str + user_guess_char + " "
-            else:
-                while user_guess_char in program_word:
-                    index = program_word.index(user_guess_char)
-                    program_word = program_word[:index] + '_' + program_word[index + 1:]
-                    user_words[index] = user_guess_char
-        if '_' not in user_words:
-            print("You guessed the word: %s" % "".join(user_words))
-        elif chances_num == 0:
-            print("You lost after %s wrong guesses." % chances_tmp)
+      res += p1[i] if p1[i] != '_' else p2[i]
+  return res
 
 
-def wicked_game():
-    file = argv[1]
-    len_word = int(argv[2])
-    chances_num = int(argv[3])
-    chances_tmp = chances_num
-    words = {}
-    with open(file, 'r') as f:
-        word_list = f.readlines()
-        for word in word_list:
-            word = word.strip('\n')
-            if len(word) not in words:
-                words[len(word)] = [word]
-            else:
-                words[len(word)].append(word)
 
-    program_words = words[len_word]
-    user_words = ['_' for _ in range(len_word)]
-    miss_str = ""
-    while chances_num:
-        res = {}
-        s = '%s words left.' % len(program_words)
-        debug_print(s)
-        print("".join(user_words))
-        print('missed letters: %s(%s chances left)' % (miss_str, chances_num))
-        user_guess_char = input("Enter your guess: ")
-        for word in program_words:
-            tmp_word = ''
-            for char in word:
-                if char == user_guess_char:
-                    tmp_word += char
-                else:
-                    tmp_word += "_"
-            if tmp_word in res:
-                res[tmp_word].append(word)
-            else:
-                res[tmp_word] = [word]
-        program_words = res["".join(user_words)]
-        for key in res:
-            s = "%s: %s" % (key, len(res[key]))
-            debug_print(s)
-        chances_num -= 1
-        miss_str = miss_str + user_guess_char + " "
-    print("You lost after %s wrong guesses." % chances_tmp)
+def generate_pattern_dict(word_list, letter):
+  patterns={}
+  for word in word_list:
+    pat = ''.join([l if l == letter else '_' for l in word])    
+    if pat not in patterns:
+      patterns[pat] = []
+    patterns[pat].append(word)
+  return patterns
 
 
-if __name__ == '__main__':
-    normal_game()
+
+def select_pattern(patterns):
+  pat_to_amount = [(p, len(l)) for p, l in patterns.items()]
+  pat_to_amount.sort(key=lambda x: x[0])
+  pat_to_amount.sort(key=lambda x: x[0].count('_'))
+  pat_to_amount.sort(key=lambda x: x[1])
+
+  for a, b in pat_to_amount:
+    debug_print(f'{a}:{b}')
+  return pat_to_amount[-1][0]
+
+
+def get_word_list(filename, word_len):
+  with open(filename, 'r') as f:
+    word_list = f.read().strip().split('\n')
+  word_list = [i for i in word_list if len(i) == word_len]
+  if not word_list:
+    exit(-1)
+  return word_list
+
+
+
+
+def main():
+  filename = argv[1]
+  word_len = argv[2]
+  wrong_times = argv[3]
+
+  # filename = 'word.txt'
+  # word_len = 8
+  # wrong_times = 7
+
+  word_list = get_word_list(filename, word_len)
+  missed_letter = []
+  current_pat = '_'*word_len
+  current_word_list = word_list
+  while True:
+    if wrong_times <= 0:
+      print(f'You lost after {len(missed_letter)} wrong guesses.')
+      break
+    elif '_' not in current_pat:
+      print(f'You guessed the word: {current_pat}')
+      break
+
+    debug_print(f'{len(current_word_list)} words left.')
+
+    patterns = {}
+    print(current_pat)
+    print(
+      f'missed letters: {" ".join(missed_letter)} ({wrong_times} chances left)')
+    letter = input('Enter your guess: ')
+
+    
+    patterns = generate_pattern_dict(current_word_list, letter)
+
+    
+    if '_' * word_len in patterns:
+      wrong_times -= 1
+      missed_letter.append(letter)
+
+    
+    patterns = {mix_pat(k, current_pat): v for k, v in patterns.items()}
+
+    
+    current_pat = select_pattern(patterns)
+    current_word_list = patterns[current_pat]
+
+    print('')
+
+
+if __name__ == "__main__":
+  main()
