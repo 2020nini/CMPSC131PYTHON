@@ -1,8 +1,15 @@
 # Author: Wenrui Zhang wkz5094@psu.edu
 # GitHub ID: 2020nini
 
-#python3 sudoku.py sudokus/s01a.p1 3 5 answer_s01a.csv
+"""
+Your program should read in a pickle file that encodes a sudoku puzzle,
+print out a puzzle, and analyze possible answers for a given coordinate
+(x,y).
+$python3 sudoku.py sudokus/s01a.p1 3 5 answer.csv
+$python3 sudoku.py sudokus/s01a.p1 0 1 answer.csv
+"""
 import sys
+import pickle
 
 def get_data(i,j,lines):
     total_num = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -33,17 +40,12 @@ def get_data(i,j,lines):
 
 if __name__ == "__main__":
     file = sys.argv[1]
-    with open(file, 'r') as f:
-        lines = f.readlines()
+    with open(file, 'rb') as f:
+        lines = pickle.load(f)
 
     lines_ = []
     for line in lines:
-        line = line.strip('\n')
-        print(line)
-
-    for line in lines:
-        line = line.strip('\n')
-        line = line.split(' ')
+        print(" ".join("{0}".format(n) for n in line))
         lines_.append(line)
     row_num = int(sys.argv[2])
     col_num = int(sys.argv[3])
@@ -77,11 +79,3 @@ if __name__ == "__main__":
                 if lines_[i][j] == 0:
                     res = get_data(i, j, lines_)
                     f.write('%s,%s,"%s"\n' % (i, j, res))
-
-
-
-
-
-
-
-
