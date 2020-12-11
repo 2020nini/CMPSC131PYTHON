@@ -3,6 +3,7 @@ from sys import argv
 
 
 
+
 def mix_pat(p1, p2):
   if p1 == p2:
     return p1
@@ -51,10 +52,11 @@ def get_word_list(filename, word_len):
 
 
 
+
 def main():
   filename = argv[1]
-  word_len = argv[2]
-  wrong_times = argv[3]
+  word_len = int(argv[2])
+  wrong_times = int(argv[3])
 
   # filename = 'word.txt'
   # word_len = 8
