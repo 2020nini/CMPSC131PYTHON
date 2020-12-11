@@ -51,6 +51,14 @@ def get_word_list(filename, word_len):
 
 
 
+try:
+  debug_mode = True if argv[4] == 'debug' else False
+except:
+  debug_mode = False
+def debug_print(s):
+  if debug_mode:
+    print(s)
+
 
 
 def main():
