@@ -12,7 +12,10 @@ def mix_pat(p1, p2):
     if p1[i] == '_' and p2[i] == '_':
       res += '_'
     elif p1[i] != '_' and p2[i] != '_':
-      raise Exception(p1 + p2)
+      if p1[i] == p2[i]:
+        res += p1[i]
+      else:
+        raise Exception(p1 + p2)
     else:
       res += p1[i] if p1[i] != '_' else p2[i]
   return res
@@ -93,17 +96,20 @@ def main():
     
     patterns = generate_pattern_dict(current_word_list, letter)
 
-    
-    if '_' * word_len in patterns:
-      wrong_times -= 1
-      missed_letter.append(letter)
 
     
     patterns = {mix_pat(k, current_pat): v for k, v in patterns.items()}
 
     
-    current_pat = select_pattern(patterns)
+    choice = select_pattern(patterns)
+    
+    if current_pat == choice and letter not in current_pat:
+      wrong_times -= 1
+      missed_letter.append(letter)
+
+    current_pat = choice
     current_word_list = patterns[current_pat]
+
 
     print('')
 
