@@ -8,7 +8,6 @@ print out a puzzle, and analyze possible answers for a given coordinate
 $python3 sudoku.py sudokus/s01a.p1 3 5 answer.csv
 $python3 sudoku.py sudokus/s01a.p1 0 1 answer.csv
 """
-
 import sys
 import pickle
 import csv
@@ -45,7 +44,9 @@ if __name__ == "__main__":
     file = sys.argv[1]
     with open(file, 'rb') as f:
         lines = pickle.load(f)
-
+    if not lines:
+        print()
+        print()
     lines_ = []
     for line in lines:
         print(" ".join("{0}".format(n) for n in line))
